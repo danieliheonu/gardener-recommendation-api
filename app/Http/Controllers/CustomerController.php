@@ -27,21 +27,21 @@ class CustomerController extends Controller
         $gardeners = Gardener::where(["country" => $created_cust->country, "location" => $created_cust->location])->get();
         
         if($gardeners != null){
-
+            $gardener_list = [];
+            
             foreach($gardeners as $gardener){
-                $gardener_list = [];
-                array_push($gardener_list, $gardener);
+                array_push($gardener_list, $gardener->id);
             }
 
-            $allocated_gardener = array_rand($gardener_list);
+            $allocated_gardener_index = array_rand($gardener_list);
 
-            $customer_gardener = $customer->update(["gardener_id" => $gardener_list[$allocated_gardener]->id]);
+            $customer_gardener = $created_cust->update(["gardener_id" => $gardener_list[$allocated_gardener_index]]);
         }
 
         return response()->json([
             "status" => 200,
             "message" => "customer created successfully",
-            "data" => $customer
+            "data" => $created_cust
         ]);
     }
 
@@ -87,7 +87,7 @@ class CustomerController extends Controller
 
         return response()->json([
             "status" => 200,
-            "message" => "retrieved successfully",
+            "message" => "updated successfully",
             "data" => $customer
         ]);
     }

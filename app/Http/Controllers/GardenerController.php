@@ -68,7 +68,7 @@ class GardenerController extends Controller
         $gardener->update($request->all());
         return response()->json([
             "status" => 200,
-            "message" => "retrieved successfully",
+            "message" => "updated successfully",
             "data" => $gardener
         ]);
     }
@@ -76,18 +76,14 @@ class GardenerController extends Controller
     public function list_of_gardeners(){
         $nigeria = [];
         $kenya = [];
-        $n_gardners = [];
-        $k_gardners = [];
 
         $all_gardeners = Gardener::all();
 
         foreach($all_gardeners as $gardener){
             if($gardener->country == "Nigeria"){
-                array_push($n_gardners, ["gardener" => $gardener, "no_of_customers" => count(Gardener::find($gardener->id)->customer)]);
-                array_push($nigeria, $n_gardners);
+                array_push($nigeria, ["gardener" => $gardener, "no_of_customers" => count(Gardener::find($gardener->id)->customer)]);
             }else{
-                array_push($k_gardners, ["gardener" => $gardener, "no_of_customers" => count(Gardener::find($gardener->id)->customer)]);
-                array_push($kenya, $k_gardners);
+                array_push($kenya, ["gardener" => $gardener, "no_of_customers" => count(Gardener::find($gardener->id)->customer)]);
             }
         }
 
